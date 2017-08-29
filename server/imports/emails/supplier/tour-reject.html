@@ -1,0 +1,17 @@
+Hi ${tour.owner.companyName}, <br />
+Your tour is rejected by Atorvia.
+Please refer to our policy on adding new tour.
+You can go back to your dashboard and edit the tour details and request for another approval.
+Alternatively, you can contact our support team at support@atorvia.com regarding your tour approval process <br />
+Please find tour details below: <br />
+<br />
+<ul>
+  <li>Tour Name: ${tour.name}</li>
+  <li>Departure: ${tour.departure}</li>
+  <li>Destination: ${tour.destination}</li>
+  <li>No. of Days: ${tour.noOfDays} </li>
+  <li>No. of Nights: ${tour.noOfNights} </li>
+  <li>Total Seats: ${tour.totalSeats}</li>
+  <li> View Link: <a href="${supplierAppUrl}/tours/view/${tour._id}">${tour.name}</a> </li>
+</ul>
+<p>Team Atorvia</p>

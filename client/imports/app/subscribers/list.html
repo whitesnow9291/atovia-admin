@@ -1,0 +1,43 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+  <span>Subscribers</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+  <section class="col s1 closeSearch" *ngIf="!!searchString">
+    <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+  </section>
+  <section class="search col s9">
+    <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+    <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+  </section>
+</section>
+
+<div class="loading">
+  Loading...
+</div>
+
+<section *ngIf="itemsSize==0">
+  No records have been added yet.
+</section>
+
+<pagination-controls id="subscribers" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+<section class="col s12 wht-bg mar-tp5 mar-bt5 bt-shadow"
+*ngFor="let subscribers of items"
+[attr.data-user-id]="subscribers._id"
+[hidden]="subscribers.deleted">
+<section class="pateint-list">
+  <section class="col s10 mar-tp10">
+    <ul class="pateint-deatil">
+      <li><i class="zmdi zmdi-email tooltipped" data-position="top" data-delay="0" data-tooltip="Email"></i> {{subscribers.email}}</li>
+    </ul>
+  </section>
+  <section class="col s2 detail-btn">
+    <ul>
+      <li *ngIf="!subscribers.deleted"><a href="javascript:void(0);" (click)="deleteSubscriber(subscribers)">Delete</a></li>
+    </ul>
+  </section>
+</section>
+</section>
+
+<pagination-controls id="subscribers" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>

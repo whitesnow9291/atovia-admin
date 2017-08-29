@@ -1,0 +1,96 @@
+.input-field p.error {
+    margin-top: -15px;
+    padding-bottom: 10px;
+    font-size: 0.9em;
+    color: #F44336;
+}
+
+.input-field div.error {
+    margin-top: -15px;
+    padding-bottom: 10px;
+    font-size: 0.9em;
+    color: #F44336;
+}
+
+/* CSS for clear search */
+.closeSearch{
+text-align: right;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+    margin-top: 8px !important;
+    cursor: pointer;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    width: 20px !important;
+}
+.input-field .cke {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.collapsible-body .collection .collection-item {
+    background-color: #f1f1f1;
+}
+.collapsible-header i {
+    width: inherit !important;
+}
+.collection-item a.tooltipped {
+    margin: 0 5px;
+}
+.label-fontsize li label {
+  font-size: 1rem !important;
+}
+.img-class {
+  border: 0;
+  max-width: 100%;
+  width: 65px;
+  float: left;
+}
+.level-link {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ul-level {
+  margin-bottom: 10px !important;
+}
+
+.inclusion {
+  padding-left: 20px !important;
+}
+
+.tour-inclusion {
+  list-style-type: disc !important;
+}
+
+.btn-info {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin-left: 10px;
+  margin-top: 2px;
+}
+.btn-info:focus {
+  background-color: inherit
+}
+.label-info {
+  color: #000;
+}
+.address {
+  margin-left: 32px;
+  color: #101010;
+  font-size: 24px;
+  font-weight: 600;
+}
+.payment-form {
+  margin-top: 10px;
+}
+.payment-type {
+  margin-left: 10px;
+}
+.has-error {
+  font-size: 14px;
+  color: #D8000C
+}
+.btn-payment {
+  margin-top: 20px;
+}

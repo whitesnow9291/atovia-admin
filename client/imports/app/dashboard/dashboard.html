@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col s12">
+        <div class="main-bgw">
+            <h2 class="header red-text text-lighten-1" color="primary">
+                Dashboard
+            </h2>
+            <fieldset class="" *ngIf="!! totalStats">
+                <legend> Statistics</legend>
+                <p>Total Suppliers: <strong>{{totalStats.activeSuppliers + totalStats.inactiveSuppliers}}</strong></p>
+                <p>Total Active Suppliers: <strong>{{totalStats.activeSuppliers}}</strong></p>
+                <p>Total Customers: <strong>{{totalStats.activeCustomers + totalStats.inactiveCustomers}}</strong></p>
+                <p>Total Active Customers: <strong>{{totalStats.activeCustomers}}</strong></p>
+            </fieldset>
+
+            <fieldset class="" *ngIf="!! totalStats">
+                <legend> Tour Statistics</legend>
+                <p>Total Tours: <strong>{{totalStats.totalTours}}</strong></p>
+                <p>Total Approved Tours: <strong>{{totalStats.approvedTours}}</strong></p>
+                <p>Total Bookings: <strong>{{totalStats.totalBookings}}</strong></p>
+                <p>Total Confirmed Bookings: <strong>{{totalStats.confirmedBooking}}</strong></p>
+                <p *ngIf="totalStats.currentMonthSales.length == 0">Total Sales (Current Month): <strong>$0</strong></p>
+                <p *ngIf="totalStats.currentMonthSales.length != 0">Total Sales (Current Month): <strong>${{totalStats.currentMonthSales[0]?.totalPrice}}</strong></p>
+                <p>Total Sales (Last Month): <strong>${{totalStats.lastMonthSales[0]?.totalPrice}}</strong></p>
+                <p>Total Sales (Last 6 Months): <strong>${{totalStats.last6MonthsSales[0]?.totalPrice}}</strong></p>
+            </fieldset>
+        </div>
+    </div>
+</div>

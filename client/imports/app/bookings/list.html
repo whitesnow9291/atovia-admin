@@ -1,0 +1,78 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+    <span>Bookings</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+      <div class="col s3" style="width: 20%;">
+        <select class="browser-default" (change)="filter(filterBooking.value)" #filterBooking id="filterBooking">
+          <option></option>
+          <option>Pending</option>
+          <option>Confirmed</option>
+          <option>Completed</option>
+          <option>Refund Requested</option>
+          <option>Cancelled</option>
+        </select>
+      </div>
+    <section class="col s1 closeSearch" *ngIf="!!searchString">
+        <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+    </section>
+    <section class="search col s9">
+        <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+        <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+    </section>
+</section>
+
+<div class="loading">
+    Loading...
+</div>
+
+<section *ngIf="itemsSize==0">
+    No bookings found to be displayed here.
+</section>
+
+<pagination-controls id="bookings" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+<section class="col s12 wht-bg mar-tp5 mar-bt5 bt-shadow"
+*ngFor="let item of items"
+[attr.data-item-id]="item._id"
+[ngClass]="{'red accent-1': item.deleted, 'red lighten-4': item.active === false}"
+[hidden]="item.deleted">
+    <section class="pateint-list">
+        <section class="col s12 mar-tp10">
+            <h2 class="pateint-name"><a [routerLink]="['/bookings/view', item._id]">{{item.tour?.name}}</a></h2>
+            <div class="row">
+              <div class="col s4">
+                <span *ngIf="!item.tour.featuredImage?.url"><img class="img-class" src="images/random.png" /></span>
+                <span *ngIf="item.tour.featuredImage?.url"><img class="img-class" src="uploads/images/{{item.tour.featuredImage?.id}}-250-200.jpg" style="width: 100%;" /></span>
+              </div>
+              <div class="col s8">
+                <div class="row">
+                  <div class="col s4">
+                    Departure: {{item.tour.departure}}
+                  </div>
+                  <div class="col s4">
+                    Destination: {{item.tour.destination}}
+                  </div>
+                  <div class="col s4">
+                    Customer: {{item.user.firstName}} {{item.user.lastName}}
+                  </div>
+                  <div class="col s4">
+                    Supplier: {{item.tour.supplier?.companyName}}
+                  </div>
+                  <div class="col s4">
+                    Booking Date : {{item.bookingDate | date}}
+                  </div>
+                  <div class="col s4">
+                    Total Price: ${{item.totalPriceDefault}}
+                  </div>
+                  <div class="col s4">
+                    Status: <b>{{getBookingStatus(item)}}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
+    </section>
+</section>
+
+<pagination-controls id="bookings" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>

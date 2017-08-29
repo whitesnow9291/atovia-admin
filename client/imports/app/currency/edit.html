@@ -1,0 +1,45 @@
+<div class="row">
+    <h2 class="header red-text text-lighten-1" color="primary">
+      Change Currency Rate
+    </h2>
+    <div class="row">
+      <form class="col s12" [formGroup]="currencyForm" #f="ngForm">
+        <div class="col s12">
+          <label for="from">From Currency</label>
+        </div>
+        <div class="input-field col s12">
+          <input style="color: #393939" type="text" id="from" formControlName="fromCurrency" readonly>
+        </div>
+        <div class="col s12">
+          <label for="to">To Currency</label>
+        </div>
+        <div class="input-field col s12">
+          <input style="color: #393939" type="text" id="to" formControlName="toCurrency" readonly>
+        </div>
+        <div class="col s12">
+          <label for="amount">Amount</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="text" id="amount" formControlName="amount">
+          <div *ngIf="currencyForm.controls['amount'].errors && currencyForm.controls['amount'].touched" class="error">
+            <div [hidden]="!currencyForm.controls['amount'].errors.required">Amount is required.</div>
+            <div [hidden]="!currencyForm.controls['amount'].errors.minlength">Minimum 1 digits required.</div>
+            <div [hidden]="!currencyForm.controls['amount'].errors.maxlength">Maximum 7 digits allowed.</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12" style="margin-top: 15px;">
+            <button class="btn waves-effect waves-light blue accent-2" type="button" (click)="changeCurrency()" [disabled]="!currencyForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light grey lighten-2" type="button" name="action" [routerLink]="['/currency/list']">Cancel</button>
+          </div>
+        </div>
+      </form>
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+    </div>
+</div>

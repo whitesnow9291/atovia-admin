@@ -1,0 +1,180 @@
+<section *ngIf="user">
+  <h2 class="header red-text text-lighten-1" color="primary">SUPPLIER'S DETAILS</h2>
+  <div class="row">
+    <section class="col s12 pt-detail bt-shadow">
+      <section class="detail-pic-user col s3">
+        <img *ngIf="! user.profile.image?.url" src="images/no-image-male.jpg" alt="" style="width:100px;" />
+        <img *ngIf="!! user.profile.image?.url" src="uploads/images/{{user.profile.image.id}}-100-100.jpg" alt="" style="width:100px;" />
+      </section>
+      <section class="col s9 content-ptdetail ">
+        <h2>{{user.profile.supplier?.companyName}}</h2>
+        <div>
+          <section class="user-gendetail row col s12">
+              <ul class="ul-level">
+                <li>
+                  <label class="label-info">Manager Name</label>
+                  <span>{{user.profile.supplier?.ownerName}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Email Address</label>
+                  <span>{{user.emails[0]?.address}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Contact Number</label>
+                  <span>{{user.profile?.contact}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Agent Certificate</label>
+                  <a href="{{supplierAppUrl}}/{{user.profile.supplier?.agentCertificate?.url}}" download><span>{{user.profile.supplier?.agentCertificate?.name}}</span></a>
+                </li>
+                <li>
+                  <label class="label-info">Agent Identity</label>
+                  <a href="{{supplierAppUrl}}/{{user.profile.supplier?.agentIdentity?.url}}" download><span>{{user.profile.supplier?.agentIdentity?.name}}</span></a>
+                </li>
+              </ul>
+              <h3 class="address" *ngIf="!! user.profile.address">Address</h3>
+              <ul *ngIf="!! user.profile.address">
+                <li>
+                  <label class="label-info">Address Line 1 :</label>
+                  <span>{{user.profile.address?.address1}}</span>
+                </li>
+                <li *ngIf="!! user.profile.address?.address2">
+                  <label class="label-info">Address Line 2 :</label>
+                  <span>{{user.profile.address?.address2}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Suburb :</label>
+                  <span>{{user.profile.address?.suburb}}</span>
+                </li>
+                <li>
+                  <label class="label-info">State :</label>
+                  <span>{{user.profile.address?.state}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Country :</label>
+                  <span>{{user.profile.address?.country}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Pincode :</label>
+                  <span>{{user.profile.address?.postCode}}</span>
+                </li>
+              </ul>
+              <h3 *ngIf="!! user.profile.supplier.bankDetails" class="address">Bank Details</h3>
+              <ul *ngIf="!! user.profile.supplier.bankDetails">
+                <li>
+                  <label class="label-info">Benificiary Name :</label>
+                  <span>{{user.profile.supplier.bankDetails?.accountName}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Account Number :</label>
+                  <span>{{user.profile.supplier.bankDetails?.accountNumber}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Bank Name :</label>
+                  <span>{{user.profile.supplier.bankDetails?.bankName}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Bank Address :</label>
+                  <span>{{user.profile.supplier.bankDetails?.bankAddress}}</span>
+                </li>
+                <li>
+                  <label class="label-info">Bank Swift Code :</label>
+                  <span>{{user.profile.supplier.bankDetails?.swiftCode}}</span>
+                </li>
+              </ul>
+
+          </section>
+        </div>
+      </section>
+      <section class="actions">
+        <span class="level-link"><a href="javascript:void(0);" [routerLink]="['/sub-admin/passwd', user._id]">Change Password</a></span> |
+        <span *ngIf="user.profile.supplier?.agentCertificate?.id">
+          <span class="level-link" *ngIf="!user.profile.supplier?.agentCertificate?.verified"><a href="javascript:void(0);" (click)="verifyCertificate(user)">Verify Agent Certificate</a></span>
+          <span class="level-link" *ngIf="user.profile.supplier?.agentCertificate?.verified"><a href="javascript:void(0);" (click)="unverifyCertificate(user)">UnVerify Agent Certificate</a></span>
+        </span> |
+        <span *ngIf="user.profile.supplier?.agentIdentity?.id">
+          <span class="level-link" *ngIf="!user.profile.supplier?.agentIdentity?.verified"><a href="javascript:void(0);" (click)="verifyIdentity(user)">Verify Agent Identity</a></span>
+          <span class="level-link" *ngIf="user.profile.supplier?.agentIdentity?.verified"><a href="javascript:void(0);" (click)="unverifyIdentity(user)">UnVerify Agent Identity</a></span>
+        </span> |
+        <span class="level-link"><a href="javascript:void(0);" [routerLink]="['/sub-admin/payout', user._id]">Payout Form</a></span>
+      </section>
+    </section>
+  </div>
+  <div class="row">
+    <h2 class="header red-text text-lighten-1" color="primary">SUPPLIER'S SALES</h2>
+    <section class="col s12 pt-detail bt-shadow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th data-field="title">Date</th>
+            <th data-field="heading">No. of Bookings</th>
+            <th data-field="summary">Total Sales</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="bookingsStats != null && bookingsStats.length > 0">
+          <tr *ngFor="let booking of bookingsStats; let index=i;">
+            <td>
+              <span>{{monthsArr[booking._id.month]}}</span>
+              <span>{{booking._id.year}}</span>
+            </td>
+            <td>{{booking.count}}</td>
+            <td>${{booking.totalPrice}}</td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="bookingsStats != null && bookingsStats.length == 0">
+          <tr>
+            <td colspan="3">No Records Found.</td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="bookingsStats == null">
+          <tr>
+            <td colspan="3">Please wait...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <div class="row">
+    <h2 class="header red-text text-lighten-1" color="primary">SUPPLIER'S PAYOUT</h2>
+    <section class="col s12 pt-detail bt-shadow">
+      <table class="table">
+        <thead>
+          <tr>
+            <th data-field="title">Period</th>
+            <th data-field="heading">Description</th>
+            <th data-field="summary">Status</th>
+            <th data-field="summary">Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="payouts != null && payouts.length > 0">
+          <tr *ngFor="let payout of payouts; let index=i;">
+            <td>
+              <span>{{payout.fromDate | date}}</span> -
+              <span>{{payout.toDate | date}}</span>
+            </td>
+            <td>{{payout.title}}</td>
+            <td>{{payout.status}}</td>
+            <td>${{payout.amount}}</td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="payouts != null && payouts.length == 0">
+          <tr>
+            <td colspan="3">No Records Found.</td>
+          </tr>
+        </tbody>
+
+        <tbody *ngIf="payouts == null">
+          <tr>
+            <td colspan="3">Please wait...</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <pagination-controls id="payouts" *ngIf="payoutsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+</section>

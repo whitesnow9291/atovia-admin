@@ -1,0 +1,70 @@
+<div class="row" *ngIf="!!user">
+    <h2 class="header red-text text-lighten-1" color="primary">
+      Create Payout For "{{user.profile.supplier.companyName}}"
+    </h2>
+    <div class="row">
+      <form class="col s12" [formGroup]="payoutForm" #f="ngForm">
+        <div class="input-field col s12">
+          <input type="text" id="comments" formControlName="title">
+          <label for="comments">Title</label>
+          <div *ngIf="payoutForm.controls['title'].errors && payoutForm.controls['title'].touched" class="error">
+            <div [hidden]="!payoutForm.controls['title'].errors.required">Title is required.</div>
+            <div [hidden]="!payoutForm.controls['title'].errors.minlength">Minimum 8 characters required.</div>
+            <div [hidden]="!payoutForm.controls['title'].errors.maxlength">Maximum 255 characters allowed.</div>
+          </div>
+        </div>
+        <div class="col s12">
+          <label for="from-date">From Date</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="date" id="from-date" formControlName="fromDate" placeholder="From Date">
+          <div *ngIf="payoutForm.controls['fromDate'].errors && payoutForm.controls['fromDate'].touched" class="error">
+            <div [hidden]="!payoutForm.controls['fromDate'].errors.required">From Date is required.</div>
+          </div>
+        </div>
+        <div class="col s12">
+          <label for="to-date">To Date</label>
+        </div>
+        <div class="input-field col s12">
+          <input type="date" id="to-date" formControlName="toDate" placeholder="To date">
+          <div *ngIf="payoutForm.controls['toDate'].errors && payoutForm.controls['toDate'].touched" class="error">
+            <div [hidden]="!payoutForm.controls['toDate'].errors.required">From Date is required.</div>
+          </div>
+        </div>
+        <div class="input-field col s12">
+          <input type="text" id="amount" formControlName="amount">
+          <label for="amount">Amount</label>
+          <div *ngIf="payoutForm.controls['amount'].errors && payoutForm.controls['amount'].touched" class="error">
+            <div [hidden]="!payoutForm.controls['amount'].errors.required">Amount is required.</div>
+            <div [hidden]="!payoutForm.controls['amount'].errors.minlength">Minimum 1 digits required.</div>
+            <div [hidden]="!payoutForm.controls['amount'].errors.maxlength">Maximum 7 digits allowed.</div>
+          </div>
+        </div>
+        <div class="col s12">
+          <label for="to-date">Status</label>
+        </div>
+        <div class="input-field col s12">
+          <select formControlName="status" class="browser-default">
+            <option>Proceeded</option>
+            <option>Paid</option>
+          </select>
+          <div style="margin-top: inherit;" *ngIf="payoutForm.controls['status'].errors && payoutForm.controls['status'].touched" class="error">
+            <div [hidden]="!payoutForm.controls['status'].errors.required">Status is required.</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12" style="margin-top: 15px;">
+            <button class="btn waves-effect waves-light blue accent-2" type="button" (click)="payout()" [disabled]="!payoutForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light grey lighten-2" type="button" name="action" [routerLink]="['/sub-admin/view',user._id]">Cancel</button>
+          </div>
+        </div>
+      </form>
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+    </div>
+</div>

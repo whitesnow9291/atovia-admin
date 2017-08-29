@@ -1,0 +1,74 @@
+<div class="row" >
+    <h2 class="header red-text text-lighten-1" color="primary">
+      Sign up
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="signupForm" #f="ngForm" (ngSubmit)="signup()">
+
+        <div class="input-field col s12">
+            <input formControlName="firstName" id="firstName" type="text" [ngClass]="{'invalid':signupForm.controls['firstName'].touched && !signupForm.controls['firstName'].valid}"></input>
+            <label for="firstName" style="transform: translateY(-140%);">First Name</label>
+            <div *ngIf="signupForm.controls['firstName'].errors && signupForm.controls['firstName'].touched" class="error">
+                <div [hidden]="!signupForm.controls['firstName'].errors.required">First Name is required.</div>
+                <div [hidden]="!signupForm.controls['firstName'].errors.minlength">Min 2 characters required.</div>
+                <div [hidden]="!signupForm.controls['firstName'].errors.maxlength">Max 30 characters allowed.</div>
+                <div [hidden]="!signupForm.controls['firstName'].errors.validateFirstName">Please type valid name.</div>
+            </div>
+        </div>
+        <div class="input-field col s12">
+            <input formControlName="lastName" id="lastName" type="text"></input>
+            <label for="lastName" style="transform: translateY(-140%);">Last Name</label>
+            <div *ngIf="signupForm.controls['lastName'].errors && signupForm.controls['lastName'].touched" class="error">
+                <div [hidden]="!signupForm.controls['lastName'].errors.required">Last Name is required.</div>
+                <div [hidden]="!signupForm.controls['lastName'].errors.minlength">Min 2 characters required.</div>
+                <div [hidden]="!signupForm.controls['lastName'].errors.maxlength">Max 30 characters allowed.</div>
+                <div [hidden]="!signupForm.controls['lastName'].errors.validateFirstName">Please type valid name.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="email" id="email" type="email"></input>
+            <label for="email" style="transform: translateY(-140%);">Email</label>
+            <div *ngIf="signupForm.controls['email'].errors && signupForm.controls['email'].touched" class="error">
+                <div [hidden]="!signupForm.controls['email'].errors.required">Email is required.</div>
+                <div [hidden]="!signupForm.controls['email'].errors.minlength">Min 2 characters required.</div>
+                <div [hidden]="!signupForm.controls['email'].errors.maxlength">Max 30 characters allowed.</div>
+                <div [hidden]="!signupForm.controls['email'].errors.validateEmail">Invalid Email address.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="password" id="password" type="password"></input>
+            <label for="password">Password</label>
+            <div *ngIf="signupForm.controls['password'].errors && signupForm.controls['password'].touched" class="error">
+                <div [hidden]="!signupForm.controls['password'].errors.required">Password is required.</div>
+                <div [hidden]="!signupForm.controls['password'].errors.minlength">Minimum 8 characters required.</div>
+                <div [hidden]="!signupForm.controls['password'].errors.maxlength">Maximum 30 characters allowed.</div>
+                <div [hidden]="!signupForm.controls['password'].errors.validatePassword">At least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character required.</div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <button class="btn waves-effect waves-light" type="submit" name="action" [disabled]="!signupForm.valid">Sign Up
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <a [routerLink]="['/login']">Already a user?</a>
+          </div>
+        </div>
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

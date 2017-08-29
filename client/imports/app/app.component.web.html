@@ -1,0 +1,23 @@
+<header-main *ngIf="!!user"></header-main>
+<header-min *ngIf="!user"></header-min>
+
+<main>
+  <section class="row">
+    <section class="col s12 m12 l11 col s12 m12 l11 maindiv">
+        <section class="dash-links list-brd" *ngIf="false">
+          <nav>
+            <div class="nav-wrapper">
+             <div class="col s12">
+               <a href="#!" class="breadcrumb">First</a>
+               <a href="#!" class="breadcrumb">Second</a>
+               <a href="#!" class="breadcrumb">Third</a>
+             </div>
+            </div>
+          </nav>
+        </section>
+        <section class="clearfix"></section>
+        <router-outlet></router-outlet>
+    
+    </section>
+  </section>
+</main>

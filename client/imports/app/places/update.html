@@ -1,0 +1,59 @@
+<div class="row" >
+    <h2 class="header red-text text-lighten-1" color="primary">
+      Create new Place
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="createForm" #f="ngForm" (ngSubmit)="onSubmit()">
+        <div class="input-field col s12">
+            <input formControlName="name" id="name" type="text" [ngClass]="{'invalid':createForm.controls['name'].touched && !createForm.controls['name'].valid}"></input>
+            <label for="name" style="transform: translateY(-140%);">Name</label>
+            <div *ngIf="createForm.controls['name'].errors && createForm.controls['name'].touched" class="error">
+                <div [hidden]="!createForm.controls['name'].errors.required">Name is required.</div>
+                <div [hidden]="!createForm.controls['name'].errors.minlength">Min 2 characters required.</div>
+                <div [hidden]="!createForm.controls['name'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+        <div class="input-field col s12">
+            <input formControlName="lat" id="lat" type="number" step="any" [ngClass]="{'invalid':createForm.controls['lat'].touched && !createForm.controls['lat'].valid}"></input>
+            <label for="lat" style="transform: translateY(-140%);">Latitude</label>
+            <div *ngIf="createForm.controls['lat'].errors && createForm.controls['lat'].touched" class="error">
+                <div [hidden]="!createForm.controls['lat'].errors.required">Latitude is required.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="lng" type="number" id="lng" step="any" [ngClass]="{'invalid':createForm.controls['lng'].touched && !createForm.controls['lng'].valid}"></input>
+            <label for="lng" style="transform: translateY(-140%);">Longitude</label>
+            <div *ngIf="createForm.controls['lng'].errors && createForm.controls['lng'].touched" class="error">
+                <div [hidden]="!createForm.controls['lng'].errors.required">Longitude is required.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="address" id="address" type="text" [ngClass]="{'invalid':createForm.controls['address'].touched && !createForm.controls['address'].valid}"></input>
+            <label for="address" style="transform: translateY(-140%);">Address</label>
+            <div *ngIf="createForm.controls['address'].errors && createForm.controls['address'].touched" class="error">
+                <div [hidden]="!createForm.controls['address'].errors.required">Address is required.</div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <button class="btn waves-effect waves-light blue accent-2" type="submit" name="action" [disabled]="!createForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light blue lighten-2" type="button" name="action" [routerLink]="['/places/list']">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

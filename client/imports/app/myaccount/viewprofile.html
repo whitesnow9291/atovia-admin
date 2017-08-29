@@ -1,0 +1,41 @@
+<section *ngIf="user">
+  <h2 class="header red-text text-lighten-1" color="primary">My Account</h2>
+  <button class="btn pull-right blue accent-2" type="button" [routerLink]="['/account/changepassword']" style="margin-bottom: 20px;">Change Password</button>
+  <section class="col s12 pt-detail bt-shadow">
+    <section class="pateint-pic detail-pic-user col s3">
+      <img src="images/no-image-male.jpg" alt="" style="width:100px;" *ngIf="! user?.profile.image?.url" />
+      <img src="uploads/images/{{user?.profile.image?.id}}-100-100.jpg" alt="" style="width:100px;" *ngIf="!! user?.profile.image?.url" />
+
+      <div>
+        <span class="item item-input">
+          <input type="file" (change)="onFileSelect($event)" id="inputFile" accept="image/* ">
+        </span>
+      </div>
+
+    </section>
+    <section class="col s9 content-ptdetail" style="padding-top: 0 !important;">
+      <h2 style="">{{user.profile.firstName}} {{user.profile.lastName}}</h2>
+      <div>
+        <section class="user-gendetail row col s12">
+          <ul class="label-fontsize">
+            <li>
+              <label style="color:black">User Name :</label>
+              <span>{{user.profile.firstName}} {{user.profile.lastName}}</span>
+            </li>
+            <li>
+              <label style="color:black">Email Address :</label>
+              <span>{{user.emails[0].address}}</span>
+            </li>
+            <li>
+              <label style="color:black">Roles :</label>
+              <span>{{user.roles}}</span>
+            </li>
+
+          </ul>
+        </section>
+      </div>
+    </section>
+  </section>
+</section>
+
+</section>

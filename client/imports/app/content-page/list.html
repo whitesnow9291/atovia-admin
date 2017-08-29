@@ -1,0 +1,58 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+  <span>Static Pages</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+  <section class="col s1 closeSearch" *ngIf="!!searchString">
+    <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+  </section>
+
+  <section class="search col s9">
+    <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+    <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+  </section>
+
+  <section class="download-btn col s2">
+    <a class="waves-effect waves-light btn blue accent-2"  [routerLink]="['/page/create']"><i class="zmdi zmdi-plus"></i>Add Page</a>
+  </section>
+</section>
+
+<div class="loading">
+  Loading...
+</div>
+
+<pagination-controls id="pages" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+<table class="bordered striped highlight responsive-table" *ngIf="itemsSize>=0">
+  <thead>
+    <tr>
+      <th data-field="title">Title</th>
+      <th data-field="heading">Heading</th>
+      <th data-field="summary">Summary</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class=""
+    *ngFor="let page of pageArr"
+    [attr.data-page-id]="page._id"
+    [ngClass]="{'red accent-1': page.deleted, 'red lighten-4': page.active === false}"
+    [hidden]="page.deleted">
+    <td><a [routerLink]="['/page/view', page._id]">{{page.title}}</a></h2></td>
+    <td>{{page.heading}}</td>
+    <td [innerHTML]="page.summary"></td>
+    <td><a class="btn-floating waves-effect waves-light blue tooltipped" href="javascript:void(0);" [routerLink]="['/page/update', page._id]" data-position="top" data-delay="0" data-tooltip="Edit Page"><i class="material-icons">mode_edit</i></a>
+      <a *ngIf="page.active == undefined || page.active === true" class="btn-floating waves-effect waves-light green lighten-2 tooltipped" href="javascript:void(0);" (click)="deactivate(page)" data-position="top" data-delay="0" data-tooltip="Deactivate"><i class="material-icons">check</i></a>
+      <a *ngIf="page.active === false" class="btn-floating waves-effect waves-light red lighten-2 tooltipped" href="javascript:void(0);" (click)="activate(page)" data-position="top" data-delay="0" data-tooltip="Activate"><i class="material-icons">check</i></a></li>
+      <a *ngIf="!page.deleted" class="btn-floating waves-effect waves-light red tooltipped" href="javascript:void(0);" (click)="deletePage(page)" data-position="top" data-delay="0" data-tooltip="Delete Page"><i class="material-icons">delete</i></a>
+    </td>
+  </tr>
+  <tr *ngIf="itemsSize==0">
+    <td colspan="4">
+      No records have been added yet.
+    </td>
+  </tr>
+</tbody>
+</table>
+
+<pagination-controls id="pages" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>

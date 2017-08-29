@@ -1,0 +1,227 @@
+<section *ngIf="!! tour">
+  <h2 class="header red-text text-lighten-1" color="primary">TOUR DETAILS</h2>
+  <div class="row">
+    <!-- left col starts -->
+    <div class="col s4">
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2>Tour Gallery</h2>
+          <div class="col s6 pt-detail" *ngFor="let image of tour.images">
+            <img *ngIf="! image.url" class="img-class" src="images/random.png" style="width: 100%;" />
+            <a *ngIf="!! image.url" [href]="image.url" target="_blank"><img class="img-class" src="uploads/images/{{image.id}}-100-80.jpg" style="width: 100%;" />
+          </div>
+      </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2> Supplier's Details</h2>
+          <div class="center-img">
+            <img *ngIf="! owner.profile.image?.url" src="images/user.png" class="img-class">
+            <img *ngIf="!! owner.profile.image?.url" src="uploads/images/{{owner.profile.image?.id}}-65-50.jpg" class="img-class">
+          </div>
+        </div>
+
+        <div class="col s12">
+            <h3>{{owner.profile.supplier?.companyName}}</h3>
+            <div class="row" *ngIf="!! owner.profile.address">
+
+              <div>
+                <label>Address Line 1</label>:
+                <span >{{owner.profile.address.address1}}</span>
+              </div>
+
+              <div *ngIf="!! owner.profile.address.address2">
+                <label>Address Line 2</label>:
+                <span>{{owner.profile.address.address2}}</span>
+              </div>
+
+              <div>
+                <label>Suburb</label>:
+                <span>{{owner.profile.address.suburb}}</span>
+              </div>
+
+              <div>
+                <label>State</label>:
+                <span>{{owner.profile.address.state}}</span>
+              </div>
+
+              <div>
+                <label>Country</label>:
+                <span>{{owner.profile.address.country}}</span>
+              </div>
+
+              <div>
+                <label>Postcode</label>:
+                <span>{{owner.profile.address.postCode}}</span>
+              </div>
+
+            </div>
+
+            <h4>Agent Certificate</h4>
+
+            <a *ngIf="!! owner.profile.supplier?.agentCertificate?.url" href="{{owner.profile.supplier?.agentCertificate.url}}" download title="{{owner.profile.supplier?.agentCertificate.name}}">
+              <h5 style="overflow: hidden">{{owner.profile.supplier?.agentCertificate?.name}}</h5>
+            </a>
+
+            <label>Verified</label>:
+            <span *ngIf="owner.profile.supplier?.agentCertificate?.verified">Yes</span>
+            <span *ngIf="!owner.profile.supplier?.agentCertificate?.verified">No</span>
+
+        </div>
+        <div class="col s12">
+
+            <h4>Agent Identity</h4>
+
+
+            <h5>{{owner.profile.supplier?.ownerName}}</h5>
+            <a *ngIf="!! owner.profile.supplier?.agentIdentity?.url" href="{{owner.profile.supplier?.agentIdentity.url}}" download title="{{owner.profile.supplier?.agentIdentity.name}}">
+              <h5 style="overflow: hidden">{{owner.profile.supplier?.agentIdentity?.name}}</h5>
+            </a>
+
+            <label>Verified</label>:
+            <span *ngIf="owner.profile.supplier?.agentIdentity?.verified">Yes</span>
+            <span *ngIf="!owner.profile.supplier?.agentIdentity?.verified">No</span>
+
+        </div>
+      </div>
+
+      <div class="row pt-detail" *ngIf="tour.deleted !== true">
+        <div class="col s12">
+          <h2>Tour Actions</h2>
+          <span *ngIf="tour.approved === false && tour.rejected === false"><a href="javascript:void(0)" class="" (click)="approveTour(tour)">Approve</a> |</span>
+          <span *ngIf="tour.approved === false && tour.rejected === false"><a href="javascript:void(0)" class="" (click)="disapproveTour(tour)">Disapprove</a></span>
+
+          <span *ngIf="tour.approved === true && tour.active == false"><a href="javascript:void(0)" class="" (click)="activate(tour)">Publish</a> |</span>
+          <span *ngIf="tour.approved === true && tour.active == true"><a href="javascript:void(0)" class="" (click)="deactivate(tour)">Unpublish</a> |</span>
+        </div>
+      </div>
+    </div>
+    <!-- left col ends -->
+
+    <!-- right col starts -->
+    <div class= "col s8">
+      <div class="pt-detail row">
+        <div class="col s12">
+          <h2>{{tour.name}}</h2>
+          <p class="col s6">Departure: {{tour.departure}}</p>
+          <p class="col s6">Destination: {{tour.destination}}</p>
+          <p class="col s6">No. of Days: {{tour.noOfDays}}</p>
+          <p class="col s6">No. of Nights: {{tour.noOfNights}}</p>
+          <p class="col s6">Tour Type: {{tour.tourType}}</p>
+          <p class="col s6">Tour Pace: {{tour.tourPace}}</p>
+          <p class="col s6">Guide Included: <span [innerHTML]="tour.hasGuide == true ? 'Yes' : 'No'"></span></p>
+          <p class="col s6">Flight Included: <span [innerHTML]="tour.hasFlight == true ? 'Yes' : 'No'"></span></p>
+        </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h4 class="sub-header">Tour Schedule </h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Start</th>
+                <th>End </th>
+                <th>Seats Left</th>
+                <th>Price($)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of tour.dateRange;">
+                <td>{{row.startDate | date}}</td>
+                <td>{{row.endDate | date}}</td>
+                <td>{{row.availableSeats}}</td>
+                <td>${{row.price[0]?.adult}}</td>
+                <td>
+                  <button class="btn-info" (click)="selDateRange=row" type="button" data-toggle="modal" data-target="myModal"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {{initializeModal()}}
+        </div>
+      </div>
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <table class="table hover-table" *ngIf="selDateRange">
+						<thead>
+							<tr>
+								<th>People</th>
+								<th>Adult</th>
+								<th>Child</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let row of selDateRange.price">
+								<td>{{row.numOfPersons}}</td>
+								<td>${{row.adult}}</td>
+								<td>${{row.child}}</td>
+							</tr>
+						</tbody>
+					</table>
+        </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12" *ngFor="let itenerary of tour.itenerary; let i = index;">
+          <h4>Day <span [innerHTML]="i+1"></span> {{itenerary.title}}</h4>
+          <p [innerHTML]="itenerary.description | nl2br"></p>
+          <div class="sub-head">
+            <label>Hotel</label>:
+            <span>{{itenerary.hotelName || itenerary.hotelType}}</span>
+          </div>
+          <div class="sub-head">
+            <h5>Meals</h5>
+            <p>
+              <span class="radio-wrap">
+                <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!itenerary.hasBreakfast">
+                <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="itenerary.hasBreakfast">
+                <label for="breakFast" class="radio-custom-label">Breakfast</label>
+              </span>
+              <span class="radio-wrap">
+                <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!itenerary.hasLunch">
+                <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="itenerary.hasLunch">
+                <label for="lunch" class="radio-custom-label">Lunch</label>
+              </span>
+              <span class="radio-wrap">
+                <img src="images/imgpsh_fullsize.png" alt="" *ngIf="!itenerary.hasDinner">
+                <img src="images/imgpsh_fullsize(2).png" alt="" *ngIf="itenerary.hasDinner">
+                <label for="dinner" class="radio-custom-label">Dinner</label>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row pt-detail">
+        <div class="col s12">
+            <h4>Inclusion &amp; Policy</h4>
+            <h5>Included:</h5>
+            <ul class="inclusion">
+              <li class="tour-inclusion" *ngFor="let text of tour.inclusions;">{{text}}</li>
+            </ul>
+            <h5>Excluded:</h5>
+            <ul class="inclusion">
+              <li class="tour-inclusion" *ngFor="let text of tour.exclusions">{{text}}</li>
+            </ul>
+
+            <h4>Attached Policies</h4>
+            <p *ngIf="tour.cancellationPolicy">
+              <span><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+              <a href="{{tour.cancellationPolicy.url}}" download>{{tour.cancellationPolicy.name}}</a>
+            </p>
+            <p *ngIf="tour.refundPolicy">
+              <span><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+              <a href="{{tour.refundPolicy.url}}" download>{{tour.refundPolicy.name}}</a>
+            </p>
+        </div>
+      </div>
+
+    </div>
+    <!-- right col ends-->
+
+  </section>

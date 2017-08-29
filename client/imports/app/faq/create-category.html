@@ -1,0 +1,48 @@
+<div class="row" >
+    <h2 class="header red-text text-lighten-1" color="primary">
+      <span *ngIf="!faqcategoryId">Create new Category</span>
+      <span *ngIf="!!faqcategoryId">Update Category</span>
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="faqcategoryForm" #f="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="input-field col s12">
+            <input formControlName="title" id="title" type="text" [ngClass]="{'invalid':faqcategoryForm.controls['title'].touched && !faqcategoryForm.controls['title'].valid}"></input>
+            <label for="title" style="transform: translateY(-140%);">Title</label>
+            <div *ngIf="faqcategoryForm.controls['title'].errors && faqcategoryForm.controls['title'].touched" class="error">
+                <div [hidden]="!faqcategoryForm.controls['title'].errors.required">Title is required.</div>
+                <div [hidden]="!faqcategoryForm.controls['title'].errors.minlength">Min 5 characters required.</div>
+                <div [hidden]="!faqcategoryForm.controls['title'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <ckeditor [config]="{extraPlugins: 'divarea'}" formControlName="summary" id="summary" style="height:8rem;" [ngClass]="{'invalid':faqcategoryForm.controls['summary'].touched && !faqcategoryForm.controls['summary'].valid}"></ckeditor>
+            <label for="summary" style="transform: translateY(-140%);">Summary</label>
+            <div *ngIf="faqcategoryForm.controls['summary'].errors && faqcategoryForm.controls['summary'].touched" class="error"><br>
+                <div [hidden]="!faqcategoryForm.controls['summary'].errors.required">Summary is required.</div>
+                <div [hidden]="!faqcategoryForm.controls['summary'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!faqcategoryForm.controls['summary'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12"><br>
+            <button class="btn waves-effect waves-light blue accent-2" type="submit" name="action" [disabled]="!faqcategoryForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light blue lighten-2" type="submit" name="action" [routerLink]="['/faqcategory/list']">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

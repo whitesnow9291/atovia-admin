@@ -1,0 +1,52 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+    <span>Places</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+    <section class="col s1 closeSearch" *ngIf="!!searchString">
+        <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+    </section>
+    <section class="search col s9">
+        <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+        <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+    </section>
+    <section class="download-btn col s2">
+        <a class="waves-effect waves-light btn blue accent-2" [routerLink]="['/places/create']"><i class="zmdi zmdi-account-add"></i>Add User</a>
+    </section>
+</section>
+
+<div class="loading">
+    Loading...
+</div>
+
+<section *ngIf="itemsSize==0">
+    No records have been added yet.
+</section>
+
+<pagination-controls id="places" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+<section class="col s12 wht-bg mar-tp5 mar-bt5 bt-shadow"
+*ngFor="let item of items"
+[attr.data-user-id]="item._id"
+[ngClass]="{'red accent-1': item.deleted, 'red lighten-4': item.active === false}"
+[hidden]="item.deleted">
+    <section class="pateint-list">
+        <section class="col s8 mar-tp10">
+            <h2 class="pateint-name"><a [routerLink]="['/places/update', item._id]">{{item.name}}</a></h2>
+            <ul class="pateint-deatil">
+                <li><i class="zmdi zmdi-pin tooltipped" data-position="top" data-delay="0" data-tooltip="Address"></i> {{item.province}}, {{item.country}}</li>
+            </ul>
+        </section>
+        <section class="col s4 detail-btn">
+            <ul>
+                <li><a class="btn-floating waves-effect waves-light blue tooltipped" href="javascript:void(0);" [routerLink]="['/places/update', item._id]" data-position="top" data-delay="0" data-tooltip="Edit Item"><i class="material-icons">mode_edit</i></a></li>
+                <!-- <li><a class="btn-floating waves-effect waves-light blue tooltipped" href="javascript:void(0);" [routerLink]="['/sub-admin/passwd', item._id]" data-position="top" data-delay="0" data-tooltip="Password"><i class="material-icons">code</i></a></li> -->
+                <li *ngIf="item.active == undefined || item.active === true"><a class="btn-floating waves-effect green waves-light  lighten-2 tooltipped" href="javascript:void(0);" (click)="deactivate(item)" data-position="top" data-delay="0" data-tooltip="Deactivate"><i class="material-icons">check</i></a></li>
+                <li *ngIf="item.active === false"><a class="btn-floating waves-effect waves-light red lighten-2 tooltipped" href="javascript:void(0);" (click)="activate(item)" data-position="top" data-delay="0" data-tooltip="Activate"><i class="material-icons">check</i></a></li>
+                <li *ngIf="!item.deleted"><a class="btn-floating waves-effect waves-light red tooltipped" href="javascript:void(0);" (click)="deleteUser(item)" data-position="top" data-delay="0" data-tooltip="Delete"><i class="material-icons">delete</i></a></li>
+            </ul>
+        </section>
+    </section>
+</section>
+
+<pagination-controls id="places" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>

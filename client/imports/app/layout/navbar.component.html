@@ -1,0 +1,24 @@
+<ul id="nav-mobile" class="side-nav left-bar fixed">
+    <li class="admin-pro">
+      <img src="images/no-image-male.jpg" style="width: 50%;" alt="" *ngIf="! user?.profile.image?.url" />
+      <img style="width: 50%;" src="uploads/images/{{user?.profile.image.id}}-142-142.jpg" alt="" *ngIf="!! user?.profile.image?.url" />
+    <h2>{{user.profile.firstName}} {{user.profile.lastName}}</h2>
+    </li>
+
+    <ul class="collapsible collapsible-accordion">
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/dashboard']" class="collapsible-header waves-effect waves-tea"><i class="zmdi zmdi-view-dashboard"></i> Dashboard</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/sub-admin/list']" class="collapsible-header waves-effect waves-tea"><i class="zmdi zmdi-accounts"></i> Suppliers</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/customers/list']" class="collapsible-header waves-effect waves-tea"><i class="zmdi zmdi-accounts"></i> Customers</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/tours/list']" class="collapsible-header waves-effect waves-tea"><i class="fa fa-plane"></i>Tours</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/bookings/list']" class="collapsible-header waves-effect waves-tea"><i class="fa fa-ticket"></i>Bookings</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLink]="['/subscribers/list']" class="collapsible-header waves-effect waves-tea"><i class="material-icons">email</i> Subscribers</a></li>
+        <li class="bold"><a href="javascript:void(0);" [routerLink]="['/currency/list']" class="collapsible-header waves-effect waves-tea"><i class="fa fa-money"></i> Currency</a></li>
+        <!-- <li class="bold"><a href="javascript:void(0);" [routerLink]="['faqcategory/list']" class="collapsible-header waves-effect waves-tea"><i class="fa fa-question" aria-hidden="true"></i> FAQs</a></li> -->
+        <!-- <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/page/list']" class="collapsible-header waves-effect waves-tea"><i class="zmdi zmdi-edit"></i> Static Pages</a></li> -->
+        <li class="bold"><a href="javascript:void(0);" [routerLinkActive]="['active']" [routerLink]="['/account/viewprofile']" class="collapsible-header waves-effect waves-tea"><i class="material-icons">perm_identity</i> My Account</a></li>
+    </ul>
+
+    <li class="bold"><a href="javascript:void(0);" class="waves-effect" [hidden]="!user" (click)="logout()">
+        <i class="zmdi zmdi-lock"></i> Logout</a>
+    </li>
+</ul>

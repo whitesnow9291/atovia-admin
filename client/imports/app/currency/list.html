@@ -1,0 +1,41 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+  <span>Currency Conversion Table</span>
+</h2>
+
+<section *ngIf="itemsSize==0">
+  No records have been added yet.
+</section>
+
+<section class="col s12 wht-bg mar-tp5 mar-bt5 bt-shadow">
+<section class="pateint-list">
+  <section class="col s10 mar-tp10">
+    <div class="row">
+      <section class="col s12 pt-detail bt-shadow">
+        <table class="table">
+          <thead>
+            <tr>
+              <th data-field="title">From</th>
+              <th data-field="heading">To</th>
+              <th data-field="summary">Current Rate</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let currency of items">
+            <tr>
+              <td>{{currency.from}}</td>
+              <td>{{currency.to}}</td>
+              <td>{{currency.value}}</td>
+              <td><a [routerLink]="['/currency/edit', currency._id]">Edit</a></td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="itemsSize == 0">
+            <tr>
+              <td colspan="3">No Records Found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+  </section>
+</section>
+</section>

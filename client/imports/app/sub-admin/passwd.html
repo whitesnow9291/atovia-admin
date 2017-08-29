@@ -1,0 +1,50 @@
+<div class="row" *ngIf="!!user">
+    <h2 class="header red-text text-lighten-1" color="primary">
+      Change "{{user.profile.supplier.companyName}}" Password
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="passwdForm" #f="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="input-field col s12">
+            <input formControlName="password" type="password" id="password" [ngClass]="{'invalid':passwdForm.controls['password'].touched && !passwdForm.controls['password'].valid}"></input>
+            <label for="password">Password</label>
+            <div *ngIf="passwdForm.controls['password'].errors && passwdForm.controls['password'].touched" class="error">
+                <div [hidden]="!passwdForm.controls['password'].errors.required">Password is required.</div>
+                <div [hidden]="!passwdForm.controls['password'].errors.minlength">Minimum 8 characters required.</div>
+                <div [hidden]="!passwdForm.controls['password'].errors.maxlength">Maximum 30 characters allowed.</div>
+                <div [hidden]="!passwdForm.controls['password'].errors.validatePassword">At least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character required.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="repeatPassword" type="password" id="repeatPassword" [ngClass]="{'invalid':passwdForm.controls['repeatPassword'].touched && !passwdForm.controls['repeatPassword'].valid}"></input>
+            <label for="repeatPassword">Repeat Password</label>
+            <div *ngIf="passwdForm.controls['repeatPassword'].errors && passwdForm.controls['repeatPassword'].touched" class="error">
+                <div [hidden]="!passwdForm.controls['repeatPassword'].errors.required">Repeat Password is required.</div>
+                <div [hidden]="!passwdForm.controls['repeatPassword'].errors.minlength">Minimum 8 characters required.</div>
+                <div [hidden]="!passwdForm.controls['repeatPassword'].errors.maxlength">Maximum 30 characters allowed.</div>
+                <div [hidden]="!passwdForm.controls['repeatPassword'].errors.validatePassword">At least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Number and 1 Special Character required.</div>
+            </div>
+            <div class="error" [hidden]="!(passwdForm.controls['repeatPassword'].touched && passwdForm.hasError('password.mismatch'))">Type correct Repeat Password.</div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <button class="btn waves-effect waves-light blue accent-2" type="submit" name="action" [disabled]="!passwdForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light grey lighten-2" type="button" name="action" [routerLink]="['/sub-admin/view',user._id]">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

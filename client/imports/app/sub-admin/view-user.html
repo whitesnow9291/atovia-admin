@@ -1,0 +1,28 @@
+<section *ngIf="user">
+  <h2 class="header red-text text-lighten-1" color="primary">CUSTOMER'S DETAILS</h2>
+  <div class="row">
+    <section class="col s12 pt-detail bt-shadow">
+      <section class="detail-pic-user col s3">
+        <img *ngIf="! user.profile.image" src="images/no-image-male.jpg" alt="" style="width:100px;" />
+        <img *ngIf="!! user.profile.image" src="uploads/images/{{user.profile.image.id}}-100-100.jpg" alt="" style="width:100px;" />
+      </section>
+      <section class="col s9 content-ptdetail ">
+        <h2 style="">{{user.profile.fullName}}</h2>
+        <div>
+          <section class="user-gendetail row col s12">
+            <ul class="ul-level">
+              <li>
+                <label style="color:black">Email Address</label>
+                <span>{{user.emails[0]?.address}}</span>
+              </li>
+              <li>
+                <label style="color:black">Contact Number</label>
+                <span>{{user.profile?.contact}}</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </section>
+    </section>
+  </div>
+</section>

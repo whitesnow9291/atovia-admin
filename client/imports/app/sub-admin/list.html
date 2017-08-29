@@ -1,0 +1,67 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+    <span>{{pageTitle}}</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+    <section class="col s1 closeSearch" *ngIf="!!searchString">
+        <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+    </section>
+    <section class="search col s9">
+        <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+        <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+    </section>
+</section>
+
+<div class="loading">
+    Loading...
+</div>
+
+<section *ngIf="itemsSize==0">
+    No records have been added yet.
+</section>
+
+<pagination-controls id="sub-admins" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>
+
+<section class="col s12 wht-bg mar-tp5 mar-bt5 bt-shadow"
+*ngFor="let user of items"
+[attr.data-user-id]="user._id"
+[ngClass]="{'red accent-1': user.deleted, 'red lighten-4': user.active === false}"
+[hidden]="user.deleted">
+    <section *ngIf="user.roles.indexOf('supplier') >= 0" class="pateint-list">
+        <section class="col s6 mar-tp10">
+            <h2 class="pateint-name"><a [routerLink]="['/sub-admin/view', user._id]">{{user.profile.supplier.companyName}}</a></h2>
+            <ul class="pateint-deatil">
+                <li><i class="zmdi zmdi-email tooltipped" data-position="top" data-delay="0" data-tooltip="Email"></i> {{user.emails[0].address}}</li>
+            </ul>
+        </section>
+        <section class="col s6 detail-btn">
+            <ul>
+                <li *ngIf="user.profile.supplier.agentCertificate?.verified"><a href="javascript:void(0);" (click)="unverifyCertificate(user)">Unverify Certificate</a></li>
+                <li *ngIf="user.profile.supplier.agentCertificate?.url && ! user.profile.supplier.agentCertificate?.verified"><a href="javascript:void(0);" (click)="verifyCertificate(user)">Verify Certificate</a></li>
+                <li *ngIf="user.profile.supplier.agentIdentity?.verified"><a href="javascript:void(0);" (click)="unverifyIdentity(user)">Unverify Identity</a></li>
+                <li *ngIf="user.profile.supplier.agentIdentity?.url && ! user.profile.supplier.agentIdentity?.verified"><a href="javascript:void(0);" (click)="verifyIdentity(user)">Verify Identity</a></li>
+                <li *ngIf="user.active == undefined || user.active === true"><a href="javascript:void(0);" (click)="deactivate(user)">Deactivate</a></li>
+                <li *ngIf="user.active === false"><a href="javascript:void(0);" (click)="activate(user)">Activate</a></li>
+                <!-- <li *ngIf="!user.deleted"><a href="javascript:void(0);" (click)="deleteUser(user)">Delete</a></li> -->
+            </ul>
+        </section>
+    </section>
+
+    <section *ngIf="user.roles.indexOf('customer') >= 0" class="pateint-list">
+        <section class="col s7 mar-tp10">
+            <h2 class="pateint-name"><a [routerLink]="['/customer/view', user._id]">{{user.profile.fullName}}</a></h2>
+            <ul class="pateint-deatil" *ngIf="user.emails && user.emails.length">
+                <li><i class="zmdi zmdi-email tooltipped" data-position="top" data-delay="0" data-tooltip="Email"></i> {{user.emails[0].address}}</li>
+            </ul>
+        </section>
+        <section class="col s5 detail-btn">
+            <ul>
+                <li *ngIf="user.active == undefined || user.active === true"><a href="javascript:void(0);" (click)="deactivate(user)">Deactivate</a></li>
+                <li *ngIf="user.active === false"><a href="javascript:void(0);" (click)="activate(user)">Activate</a></li>
+                <!-- <li *ngIf="!user.deleted"><a href="javascript:void(0);" (click)="deleteUser(user)">Delete</a></li> -->
+            </ul>
+        </section>
+    </section>
+</section>
+
+<pagination-controls id="sub-admins" *ngIf="itemsSize>0" class="pagination" (pageChange)="onPageChanged($event)"></pagination-controls>

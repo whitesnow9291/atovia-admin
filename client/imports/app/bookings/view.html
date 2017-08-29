@@ -1,0 +1,159 @@
+<section *ngIf="!! booking">
+  <h2 class="header red-text text-lighten-1" color="primary">BOOKING DETAILS</h2>
+  <div class="row">
+    <!-- left col starts -->
+    <div class="col s4">
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2> Featured Image</h2>
+          <img *ngIf="! booking.tour.featuredImage.url" class="img-class" src="images/random.png" style="width: 100%;" />
+          <a *ngIf="!! booking.tour.featuredImage.url" [href]="booking.tour.featuredImage.url" target="_blank"><img class="img-class" src="uploads/images/{{booking.tour.featuredImage.id}}-250-190.jpg" style="width: 100%;" />
+        </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2> Supplier's Details</h2>
+          <div class="center-img">
+            <img *ngIf="!! owner.profile.image?.url" src="uploads/images/{{owner.profile.image?.id}}-65-50.jpg" class="img-class">
+            <img *ngIf="! owner.profile.image?.url" src="images/user.png" class="img-class">
+          </div>
+        </div>
+        <div class="col s12">
+            <h3>{{owner.profile.supplier?.companyName}}</h3>
+            <h4>Agent Certificate</h4>
+
+            <a href="{{owner.profile.supplier?.agentCertificate.url}}" download title="{{owner.profile.supplier?.agentCertificate.name}}">
+              <h5 style="overflow: hidden">{{owner.profile.supplier?.agentCertificate?.name}}</h5>
+            </a>
+            <label>Verified</label>:
+            <span *ngIf="owner.profile.supplier?.agentCertificate.verified">Yes</span>
+            <span *ngIf="!owner.profile.supplier?.agentCertificate.verified">No</span>
+        </div>
+        <div class="col s12">
+            <h4>Agent Identity</h4>
+            <h5>{{owner.profile.supplier?.ownerName}}</h5>
+            <a href="{{owner.profile.supplier?.agentIdentity.url}}" download title="{{owner.profile.supplier?.agentIdentity.name}}">
+              <h5 style="overflow: hidden">{{owner.profile.supplier?.agentIdentity?.name}}</h5>
+            </a>
+            <label>Verified</label>:
+            <span *ngIf="owner.profile.supplier?.agentIdentity.verified">Yes</span>
+            <span *ngIf="!owner.profile.supplier?.agentIdentity.verified">No</span>
+
+        </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2>User Details</h2>
+          <div>
+            <label>Full Name</label>:
+            <span>{{booking.user.firstName}} {{booking.user.lastName}}</span>
+          </div>
+          <div>
+            <label>Email</label>:
+            <span>{{booking.user.email}} </span>
+          </div>
+          <div>
+            <label>Contact</label>:
+            <span>{{booking.user.contact}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- left col ends -->
+
+    <!-- right col starts -->
+    <div class= "col s8">
+      <div class="pt-detail row">
+        <div class="col s12">
+            <h2>{{booking.tour.name}}</h2>
+            <p class="col s6">Departure: {{booking.tour.departure}}</p>
+            <p class="col s6">Destination: {{booking.tour.destination}}</p>
+            <p class="col s6">Departure Date: {{booking.startDate | date}}</p>
+            <p class="col s6">Booking Date: {{booking.bookingDate | date}}</p>
+            <p class="col s6">Booking Id: {{booking.uniqueId}}</p>
+            <p class="col s6">No. of Travellers: {{booking.numOfTravellers}}</p>
+            <p class="col s6">Total Price: ${{booking.totalPriceDefault}}</p>
+            <p class="col s6">Price per adult: ${{booking.pricePerAdultDefault}}</p>
+            <p class="col s6">Price per child: ${{booking.pricePerChildDefault}}</p>
+            <p class="col s6">Status: <b>{{getBookingStatus(booking)}}</b></p>
+            <p class="col s6">Guide Included: <span [innerHTML]="booking.tour.hasGuide == true ? 'Yes' : 'No'"></span></p>
+            <p class="col s6">Flight Included: <span [innerHTML]="booking.tour.hasFlight == true ? 'Yes' : 'No'"></span></p>
+        </div>
+      </div>
+
+      <div class="row pt-detail">
+        <div class="col s12">
+          <h2>Traveller's Details</h2>
+          <div class="col s12" *ngFor="let traveller of booking.travellers; let i=index;">
+            <h4>Traveller <span [innerHTML]="i+1"></span></h4>
+            <div>
+              <p class="col s6">First Name: {{traveller.firstName}}</p>
+              <p class="col s6">Last Name: {{traveller.lastName}}</p>
+              <p class="col s6" *ngIf="!! traveller.email">Email: {{traveller.email}}</p>
+              <p class="col s6" *ngIf="!! traveller.contact">Contact: {{traveller.contact}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row pt-detail" *ngIf="booking.cancelled">
+        <div class="col s12">
+          <h2>Cancellation Details</h2>
+          <div class="col s12">
+            <div>
+              <p class="col s6">Cancelled Date: {{booking.cancelledAt | date}}</p>
+              <p class="col s6">Cancelled By: <b>{{booking.cancelledBy | uppercase}}</b></p>
+              <p class="col s6" *ngIf="!! booking.refundInfo">Refunded Date: {{booking.refundInfo?.processedAt | date}}</p>
+              <p class="col s6" *ngIf="booking.refunded == true && ! booking.refundInfo">Refund Denied At: {{booking.refundDeniedAt | date}}</p>
+              <p class="col s6" *ngIf="!! booking.refundInfo">Refunded By: <b>{{booking.refundInfo?.processedBy | uppercase}}</b></p>
+              <p class="col s6" *ngIf="!! booking.refundInfo">Refunded Amount: ${{booking.refundedAmount}}</p>
+              <p class="col s12">Reason: {{booking.cancellationReason}}</p>
+              <p class="col s12">Comments By Customer: {{booking.cancellationComments}}</p>
+              <p class="col s12" *ngIf="!! booking.refundComments">Comments By Admin: {{booking.refundComments}}</p>
+              <p class="col s12">
+                <button *ngIf="booking.cancelled == true && booking.refunded !== true" type="button" class="col s4 btn waves-effect waves-light blue accent-2" data-toggle="modal" data-target="payment">Refund Payment</button>
+                <button *ngIf="booking.cancelled == true && booking.refunded !== true" type="button" class="col s3 offset-s1 btn waves-effect waves-light orange accent-1" (click)="denyRefund()">Deny Refund</button>
+              </p>
+              {{initializeModal()}}
+            </div>
+          </div>
+          <div class="col s12" *ngIf="isProcessing">
+            <p class="process-wrap"><b>Your request is under processing. Please wait for a while.</b></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- right col ends-->
+
+    <!--modal starts-->
+    <div id="payment" class="modal">
+      <div class="modal-content">
+        <form [formGroup]="refundForm" #f="ngForm">
+          <h2>Refund Payment</h2>
+          <label>Total amount paid by customer: <b style="color: #444">${{booking.totalPriceDefault}}</b></label>
+          <div class="row payment-form">
+            <div class="input field col s12" >
+              <label for="amount">Amount to refund</label>
+              <input id="amount" type="number" placeholder="Enter the amount" formControlName="amount">
+              <div *ngIf="refundForm.controls['amount'].errors && refundForm.controls['amount'].touched" class="has-error">
+                <div *ngIf="refundForm.controls.amount.hasError('required')">You have to fill in Amount to continue.</div>
+              </div>
+            </div>
+            <div class="input field col s12" >
+              <label for="amount">Comments</label>
+              <textarea id="amount" placeholder="Enter the comments" formControlName="comments"></textarea>
+              <div *ngIf="refundForm.controls['comments'].errors && refundForm.controls['comments'].touched" class="has-error">
+                <div *ngIf="refundForm.controls.comments.hasError('maxlength')">Max characters allowed is 255.</div>
+              </div>
+            </div>
+            <div class="col s12">
+              <button class="btn-payment btn waves-effect waves-light blue accent-2" (click)="processRefund()">Make Refund</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </section>

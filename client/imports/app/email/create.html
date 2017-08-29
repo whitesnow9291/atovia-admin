@@ -1,0 +1,89 @@
+<div class="row" >
+    <h2 class="header red-text text-lighten-1" color="primary">
+      <span *ngIf="!emailId">Create new Email</span>
+      <span *ngIf="!!emailId">Update Email</span>
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="emailForm" #f="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="input-field col s12">
+            <input formControlName="title" id="title" type="text" [ngClass]="{'invalid':emailForm.controls['title'].touched && !emailForm.controls['title'].valid}"></input>
+            <label for="title" style="transform: translateY(-140%);">Title</label>
+            <div *ngIf="emailForm.controls['title'].errors && emailForm.controls['title'].touched" class="error">
+                <div [hidden]="!emailForm.controls['title'].errors.required">Title is required.</div>
+                <div [hidden]="!emailForm.controls['title'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!emailForm.controls['title'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+        <div class="input-field col s12">
+            <input formControlName="heading" id="heading" type="text" [ngClass]="{'invalid':emailForm.controls['heading'].touched && !emailForm.controls['heading'].valid}"></input>
+            <label for="heading" style="transform: translateY(-140%);">Heading</label>
+            <div *ngIf="emailForm.controls['heading'].errors && emailForm.controls['heading'].touched" class="error">
+                <div [hidden]="!emailForm.controls['heading'].errors.required">Heading is required.</div>
+                <div [hidden]="!emailForm.controls['heading'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!emailForm.controls['heading'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+              <input formControlName="code" id="code" type="text" [ngClass]="{'invalid':emailForm.controls['code'].touched && !emailForm.controls['code'].valid}"></input>
+              <label for="code" style="transform: translateY(-140%);">Code</label>
+              <div *ngIf="emailForm.controls['code'].errors && emailForm.controls['code'].touched" class="error">
+                  <div [hidden]="!emailForm.controls['code'].errors.required">Code is required.</div>
+                <div [hidden]="!emailForm.controls['code'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!emailForm.controls['code'].errors.maxlength">Max 255 characters allowed.</div>
+                <div [hidden]="!emailForm.controls['code'].errors.validateSlug">Only alphanumeric characters and hiphen(-) allowed.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="senderId" id="senderId" type="text" [ngClass]="{'invalid':emailForm.controls['senderId'].touched && !emailForm.controls['senderId'].valid}" placeholder="yourname@domain.com"></input>
+            <label for="senderId" style="transform: translateY(-140%);">Sender ID</label>
+            <div *ngIf="emailForm.controls['senderId'].errors && emailForm.controls['senderId'].touched" class="error">
+                <div [hidden]="!emailForm.controls['senderId'].errors.required">Email is required.</div>
+                <div [hidden]="!emailForm.controls['senderId'].errors.minlength">Min 5 characters required.</div>
+                <div [hidden]="!emailForm.controls['senderId'].errors.maxlength">Max 50 characters allowed.</div>
+                <div [hidden]="!emailForm.controls['senderId'].errors.validateEmail">Invalid Email address.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <ckeditor [config]="{extraPlugins: 'divarea'}" formControlName="summary" id="summary" style="height:8rem;" [ngClass]="{'invalid':emailForm.controls['summary'].touched && !emailForm.controls['summary'].valid}"></ckeditor>
+            <label for="summary" style="transform: translateY(-140%);">Summary</label>
+            <div *ngIf="emailForm.controls['summary'].errors && emailForm.controls['summary'].touched" class="error"><br>
+                <div [hidden]="!emailForm.controls['summary'].errors.required">Summary is required.</div>
+                <div [hidden]="!emailForm.controls['summary'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!emailForm.controls['summary'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <ckeditor [config]="{extraPlugins: 'divarea'}" formControlName="contents" id="contents" style="height:12rem;" [ngClass]="{'invalid':emailForm.controls['contents'].touched && !emailForm.controls['contents'].valid}"></ckeditor>
+            <label for="contents" style="transform: translateY(-140%);">Contents</label>
+            <div *ngIf="emailForm.controls['contents'].errors && emailForm.controls['contents'].touched" class="error"><br>
+                <div [hidden]="!emailForm.controls['contents'].errors.required">Contents is required.</div>
+                <div [hidden]="!emailForm.controls['contents'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!emailForm.controls['contents'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12">
+            <button class="btn waves-effect waves-light blue accent-2" type="submit" name="action" [disabled]="!emailForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light blue lighten-2" type="submit" name="action" [routerLink]="['/email/list']">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="row" >
+    <h2 class="header red-text text-lighten-1" color="primary">
+      <span *ngIf="!questionId">Create new FAQ
+        <span *ngIf="!!faqCategory">under "{{faqCategory.title}}"</span>
+      </span>
+      <span *ngIf="!!questionId">Update FAQ
+        <span *ngIf="!!faqCategory">under "{{faqCategory.title}}"</span>
+      </span>
+    </h2>
+
+    <div class="row">
+      <form class="col s12" [formGroup]="createForm" #f="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="input-field col s12">
+            <select class="browser-default" formControlName="categoryId" id="categoryId" [ngClass]="{'invalid':createForm.controls['categoryId'].touched && !createForm.controls['categoryId'].valid}">
+              <option value="">--- Please Select ---</option>
+              <option *ngFor="let category of faqCategories;" value="{{category._id}}">{{category.title}}</option>
+            </select>
+            <label for="categoryId" style="transform: translateY(-140%);">Category ID</label>
+            <div *ngIf="createForm.controls['categoryId'].errors && createForm.controls['categoryId'].touched" class="error">
+                <div [hidden]="!createForm.controls['categoryId'].errors.required">Category ID is required.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <input formControlName="question" id="question" type="text" [ngClass]="{'invalid':createForm.controls['question'].touched && !createForm.controls['question'].valid}"></input>
+            <label for="question" style="transform: translateY(-140%);">Question</label>
+            <div *ngIf="createForm.controls['question'].errors && createForm.controls['question'].touched" class="error">
+                <div [hidden]="!createForm.controls['question'].errors.required">Question is required.</div>
+                <div [hidden]="!createForm.controls['question'].errors.minlength">Min 5 characters required.</div>
+                <div [hidden]="!createForm.controls['question'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="input-field col s12">
+            <ckeditor [config]="{extraPlugins: 'divarea'}" formControlName="answer" id="answer" style="height:8rem;" [ngClass]="{'invalid':createForm.controls['answer'].touched && !createForm.controls['answer'].valid}"></ckeditor>
+            <label for="answer" style="transform: translateY(-140%);">Answer</label>
+            <div *ngIf="createForm.controls['answer'].errors && createForm.controls['answer'].touched" class="error"><br>
+                <div [hidden]="!createForm.controls['answer'].errors.required">Answer is required.</div>
+                <div [hidden]="!createForm.controls['answer'].errors.minlength">Min 8 characters required.</div>
+                <div [hidden]="!createForm.controls['answer'].errors.maxlength">Max 255 characters allowed.</div>
+            </div>
+        </div>
+
+        <div class="row">
+          <div class="col s12"><br>
+            <button class="btn waves-effect waves-light blue accent-2" type="submit" name="action" [disabled]="!createForm.valid">Submit
+              <i class="material-icons right">send</i>
+            </button>
+            <button class="btn waves-effect waves-light blue lighten-2" type="submit" name="action" [routerLink]="['/faqcategory/list']">Cancel</button>
+          </div>
+        </div>
+
+      </form>
+
+      <div [hidden]="error == ''">
+        <p class="md-warn" layout="row" layout-fill layout-padding layout-margin>
+          <p class="md-body-1">{{ error }}</p>
+        </p>
+      </div>
+
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<h2 class="header red-text text-lighten-1" color="primary">
+    <span>FAQs</span>
+</h2>
+
+<section class="serach-bg" *ngIf="itemsSize>=0">
+    <section class="col s1 closeSearch" *ngIf="!!searchString">
+        <a class="" (click)="clearsearch(searchString='')"><i class="material-icons">clear</i></a>
+    </section>
+
+    <section class="search col s9">
+        <input id="search" type="text" #searchtext class="col s12" placeholder="Search here..." (keyup.enter)="search(searchtext.value)" [(ngModel)]="searchString" />
+        <label class="tooltipped" for="search" (click)="search(searchtext.value)" data-position="top" data-delay="0" data-tooltip="Click to Search"><i class="material-icons">search</i></label>
+    </section>
+
+    <section class="download-btn col s2">
+        <a class="waves-effect waves-light btn blue accent-2"  [routerLink]="['/faqcategory/create']"><i class="zmdi zmdi-plus"></i>Add </a>
+    </section>
+</section>
+
+<div class="loading">
+    Loading...
+</div>
+
+<ul class="collapsible" data-collapsible="accordion" *ngFor="let faqcategory of faqcategoryArr; let i = index;">
+    <li [attr.data-page-id]="faqcategory._id"
+        [ngClass]="{'red accent-1': faqcategory.deleted, 'red lighten-4': faqcategory.active === false}"
+        [hidden]="faqcategory.deleted">
+      <div class="collapsible-header">
+          <div class="col s9">{{faqcategory.title}}</div>
+          <div class="col s3">
+            <a class="blue tooltipped" href="javascript:void(0);" [routerLink]="['/faqcategory/create-ques', faqcategory._id]" data-position="top" data-delay="0" data-tooltip="Add Question"><i class="zmdi zmdi-plus"></i></a>
+            <a class="blue tooltipped" href="javascript:void(0);" [routerLink]="['/faqcategory/update', faqcategory._id]" data-position="top" data-delay="0" data-tooltip="Edit Category"><i class="zmdi zmdi-edit"></i></a>
+            <a *ngIf="faqcategory.active == undefined || faqcategory.active === true" class="red lighten-2 tooltipped" href="javascript:void(0);" (click)="deactivateFAQCategory(faqcategory)" data-position="top" data-delay="0" data-tooltip="Deactivate"><i class="zmdi zmdi-check"></i></a>
+            <a *ngIf="faqcategory.active === false" class="green lighten-2 tooltipped" href="javascript:void(0);" (click)="activateFAQCategory(faqcategory)" data-position="top" data-delay="0" data-tooltip="Activate"><i class="zmdi zmdi-check"></i></a>
+            <a *ngIf="!faqcategory.deleted" class="red tooltipped" href="javascript:void(0);" (click)="deleteFAQCategory(faqcategory)" data-position="top" data-delay="0" data-tooltip="Delete Category"><i class="zmdi zmdi-delete"></i></a>
+          </div>
+      </div>
+      <div class="collapsible-body">
+        <ul class="collection">
+            <li *ngFor="let faq of getFAQs(faqcategory._id);" class="collection-item"
+                [attr.data-page-id]="faq._id"
+                [ngClass]="{'red accent-1': faq.deleted, 'red lighten-4': faq.active === false}"
+                [hidden]="faq.deleted">
+                <div class="" style="width: 80%; float: left;">{{faq.question}}</div>
+                <div class="" style="width: 20%; float: left;">
+                    <a class="tooltipped" href="javascript:void(0);" [routerLink]="['/faqcategory/update-ques', faqcategory._id, faq._id]" data-position="top" data-delay="0" data-tooltip="Edit Question"><i class="zmdi zmdi-edit"></i></a>
+                    <a *ngIf="faq.active == undefined || faq.active === true" class="tooltipped" href="javascript:void(0);" (click)="deactivateFAQ(faq)" data-position="top" data-delay="0" data-tooltip="Deactivate"><i class="zmdi zmdi-check"></i></a>
+                    <a *ngIf="faq.active === false" class="tooltipped" href="javascript:void(0);" (click)="activateFAQ(faq)" data-position="top" data-delay="0" data-tooltip="Activate"><i class="zmdi zmdi-check"></i></a>
+                    <a *ngIf="!faq.deleted" class="tooltipped" href="javascript:void(0);" (click)="deleteFAQ(faq)" data-position="top" data-delay="0" data-tooltip="Delete"><i class="zmdi zmdi-delete"></i></a>
+                </div>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+      </div>
+
+      <div *ngIf="faqcategoryArr.length == i+1;" [innerHTML]="initializeJS()">
+          
+      </div>
+    </li>
+
+</ul>
+
+<p *ngIf="itemsSize==0">
+    No records have been added yet.
+</p>
